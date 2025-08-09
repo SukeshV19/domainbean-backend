@@ -97,7 +97,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -155,7 +155,7 @@ export interface CustomerAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   role: 'admin' | 'reader';
   updatedAt: string;
   createdAt: string;
@@ -183,7 +183,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -202,12 +202,12 @@ export interface Media {
  * via the `definition` "blogs".
  */
 export interface Blog {
-  id: string;
+  id: number;
   name: string;
   shortNote?: string | null;
   images?:
     | {
-        image?: (string | null) | Media;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -215,7 +215,7 @@ export interface Blog {
   sections?:
     | {
         heading?: string | null;
-        image?: (string | null) | Media;
+        image?: (number | null) | Media;
         content?: {
           root: {
             type: string;
@@ -242,7 +242,7 @@ export interface Blog {
  * via the `definition` "tables".
  */
 export interface Table {
-  id: string;
+  id: number;
   /**
    * Name of the table for reference
    */
@@ -276,7 +276,7 @@ export interface Table {
  * via the `definition` "customers".
  */
 export interface Customer {
-  id: string;
+  id: number;
   uname: string;
   role?: string | null;
   updatedAt: string;
@@ -302,7 +302,7 @@ export interface Customer {
  * via the `definition` "domains".
  */
 export interface Domain {
-  id: string;
+  id: number;
   name: string;
   slug: string;
   category?: ('Bussiness' | 'Commerce' | 'Food' | 'Medical' | 'Education' | 'Agriculture' | 'AI' | 'Grocery') | null;
@@ -320,7 +320,7 @@ export interface Domain {
   expDate?: string | null;
   regDate?: string | null;
   description?: string | null;
-  ownedBy?: (string | null) | Customer;
+  ownedBy?: (number | null) | Customer;
   updatedAt: string;
   createdAt: string;
 }
@@ -329,10 +329,10 @@ export interface Domain {
  * via the `definition` "sales".
  */
 export interface Sale {
-  id: string;
-  domainId?: (string | null) | Domain;
-  sellerId?: (string | null) | Customer;
-  buyerId?: (string | null) | Customer;
+  id: number;
+  domainId?: (number | null) | Domain;
+  sellerId?: (number | null) | Customer;
+  buyerId?: (number | null) | Customer;
   price?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -342,11 +342,11 @@ export interface Sale {
  * via the `definition` "domainViews".
  */
 export interface DomainView {
-  id: string;
-  domainId: string | Domain;
+  id: number;
+  domainId: number | Domain;
   users?:
     | {
-        userId?: (string | null) | Customer;
+        userId?: (number | null) | Customer;
         id?: string | null;
       }[]
     | null;
@@ -358,9 +358,9 @@ export interface DomainView {
  * via the `definition` "leads".
  */
 export interface Lead {
-  id: string;
-  buyerId: string | Customer;
-  domainId: string | Domain;
+  id: number;
+  buyerId: number | Customer;
+  domainId: number | Domain;
   type?: ('Offer' | 'BIN') | null;
   message?: string | null;
   status?: ('Accepted' | 'Paid' | 'Payment failed') | null;
@@ -372,53 +372,53 @@ export interface Lead {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'blogs';
-        value: string | Blog;
+        value: number | Blog;
       } | null)
     | ({
         relationTo: 'tables';
-        value: string | Table;
+        value: number | Table;
       } | null)
     | ({
         relationTo: 'customers';
-        value: string | Customer;
+        value: number | Customer;
       } | null)
     | ({
         relationTo: 'domains';
-        value: string | Domain;
+        value: number | Domain;
       } | null)
     | ({
         relationTo: 'sales';
-        value: string | Sale;
+        value: number | Sale;
       } | null)
     | ({
         relationTo: 'domainViews';
-        value: string | DomainView;
+        value: number | DomainView;
       } | null)
     | ({
         relationTo: 'leads';
-        value: string | Lead;
+        value: number | Lead;
       } | null);
   globalSlug?: string | null;
   user:
     | {
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       }
     | {
         relationTo: 'customers';
-        value: string | Customer;
+        value: number | Customer;
       };
   updatedAt: string;
   createdAt: string;
@@ -428,15 +428,15 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user:
     | {
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       }
     | {
         relationTo: 'customers';
-        value: string | Customer;
+        value: number | Customer;
       };
   key?: string | null;
   value?:
@@ -456,7 +456,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
