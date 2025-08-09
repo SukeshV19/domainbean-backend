@@ -1,7 +1,17 @@
 import { Request, Response } from 'express';
 import payload from 'payload';
 
-export const GET = async (req: Request, res: Response) => {
+interface User {
+  id: string;
+  email?: string;
+  [key: string]: unknown;
+}
+
+interface AuthenticatedRequest extends Request {
+  user?: User;
+}
+
+export const GET = async (req: AuthenticatedRequest, res: Response) => {
   try {
     // Get userId from query params
     const userId = req.query.userId as string;
@@ -51,7 +61,7 @@ export const GET = async (req: Request, res: Response) => {
 };
 
 // POST endpoint to create a new lead
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: AuthenticatedRequest, res: Response) => {
   try {
     // Check if user is authenticated
     if (!req.user) {

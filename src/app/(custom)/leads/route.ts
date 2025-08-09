@@ -3,7 +3,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { cookies } from 'next/headers';
 
-export async function OPTIONS(request: NextRequest) {
+export async function OPTIONS(_request: NextRequest) {
   return new NextResponse(null, { 
     status: 204,
     headers: {
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
   try {
     const payload = await getPayload({ config });
     
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('payload-token');
 
     if (!token) {
