@@ -52,13 +52,13 @@ export const POST = async(_request: NextRequest) => {
         const viewRecord = existingViews.docs[0]
         const users = viewRecord.users || []
         
-        const userAlreadyViewed = userIdNum ? users.some((u: { userId?: number | { id: number } | null | undefined }) => {
+        const userAlreadyViewed = userIdNum ? users.some((u: any) => {
           const existingUserId = typeof u.userId === 'object' && u.userId !== null ? u.userId?.id : u.userId
           return existingUserId && Number(existingUserId) === userIdNum
         }) : false
         
         if (!userAlreadyViewed && userIdNum) {
-          const updatedUsers = [...users, { userId: userIdNum }]
+          const updatedUsers = [...users, { userId: userIdNum.toString() }]
           
           await payload.update({
             collection: 'domainViews',
@@ -75,9 +75,9 @@ export const POST = async(_request: NextRequest) => {
         }
       } else {
     
-        const newViewData: { domainId: number; users: { userId: number }[] } = {
-          domainId: domainIdNum,
-          users: userIdNum ? [{ userId: userIdNum }] : [],
+        const newViewData = {
+          domainId: domainIdNum.toString(),
+          users: userIdNum ? [{ userId: userIdNum.toString() }] : [],
         }
         
         await payload.create({
@@ -89,7 +89,7 @@ export const POST = async(_request: NextRequest) => {
       
       await payload.update({
         collection: 'domains',
-        id: domainIdNum,
+        id: domainIdNum.toString(),
         data: {
           views: viewCount,
         },
