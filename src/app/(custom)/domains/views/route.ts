@@ -14,9 +14,9 @@ export async function OPTIONS() {
   })
 }
 
-export const POST = async(request: NextRequest) => {
+export const POST = async(_request: NextRequest) => {
   try {
-    const { domainId, userId } = await request.json()
+    const { domainId, userId } = await _request.json()
     
     if (!domainId) {
       return NextResponse.json(
@@ -52,7 +52,7 @@ export const POST = async(request: NextRequest) => {
         const viewRecord = existingViews.docs[0]
         const users = viewRecord.users || []
         
-        const userAlreadyViewed = userIdNum ? users.some((u: any) => {
+        const userAlreadyViewed = userIdNum ? users.some((u: { userId?: number | { id: number } | null | undefined }) => {
           const existingUserId = typeof u.userId === 'object' && u.userId !== null ? u.userId?.id : u.userId
           return existingUserId && Number(existingUserId) === userIdNum
         }) : false
@@ -75,12 +75,12 @@ export const POST = async(request: NextRequest) => {
         }
       } else {
     
-        const newViewData: any = {
+        const newViewData: { domainId: number; users: { userId: number }[] } = {
           domainId: domainIdNum,
           users: userIdNum ? [{ userId: userIdNum }] : [],
         }
         
-        const newViewRecord = await payload.create({
+        await payload.create({
           collection: 'domainViews',
           data: newViewData,
         })
